@@ -6,8 +6,8 @@ public class Main {
     {
         Verschiebebahnhof bhf = new Verschiebebahnhof();
 
-        bhf.sort
-        System.out.println(bhf);ieren();
+        bhf.sortieren();
+        System.out.println(bhf);
         System.out.println(bhf);
     }
 }
