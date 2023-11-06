@@ -7,7 +7,7 @@ public interface intKeller {
     // legt neues Element x auf den Keller
     public void push(int x);
 
-    // liefert das oberste Kellerelement
+    // liefert das oberste Stackelement
     public int peek();
 
     // löscht das oberste Kellerelement und liefert es zurück
