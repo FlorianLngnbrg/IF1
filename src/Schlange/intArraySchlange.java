@@ -5,8 +5,7 @@ public class intArraySchlange implements intSchlange
     private int[] data;
     private int vorne;
     private int hinten;
-    private int n:
-    private
+    private int n;
 
     public intArraySchlange()
     {
@@ -23,11 +22,13 @@ public class intArraySchlange implements intSchlange
 
     public void enqueue(int x)
     {
-        if(n== data.length)
-        vorne = x;
-        hinten++;
-        hinten= (hinten + 1) % data.length;
-        n++;
+        if(n==data.length)
+        {
+            vorne = x;
+            hinten++;
+            hinten = (hinten + 1) % data.length;
+            n++;
+        }
     }
 
     public int head() {
