@@ -27,6 +27,7 @@ public class Main {
 
         //for(int i=0; i<biber.length(); i++)
         //Solange Biber noch in der Schlange stehen...
+
         while(!biber.isEmpty() && !teller.isEmpty() )
         {
             //Vergleicht die Größe des obersten Tellers mit dem ersten in der Schlange stehenden Bibers.
@@ -47,4 +48,29 @@ public class Main {
             System.out.println("passt nicht!");
         }
     }
+
+    /*
+    public static boolean prüfen(intSchlange biber, intKeller teller)
+    {
+        while(!biber.isEmpty() && !teller.isEmpty() )
+        {
+            //Vergleicht die Größe des obersten Tellers mit dem ersten in der Schlange stehenden Bibers.
+            if(teller.peek()==biber.head())
+            {
+                //Gibt aus. Löscht den obersten Teller und den am Anfang stehenden Biber.
+                System.out.println(teller.peek() + " " + biber.head());
+                teller.pop();
+                biber.dequeue();
+
+                //Größe der Biber und Teller stimmt nicht überein.
+            } else System.out.println("passt nicht!");
+        }
+
+        // Gibt Fehlerausgabe, wenn die Anzahl der Biber mit der Anzahl der Teller nicht übereinstimmt.
+        if(!biber.isEmpty() || !biber.isEmpty())
+        {
+            System.out.println("passt nicht!");
+        }
+    }
+    */
 }
