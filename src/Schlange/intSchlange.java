@@ -8,4 +8,6 @@ public interface intSchlange
 
     public int dequeue();
 
+    public int length();
+
 }

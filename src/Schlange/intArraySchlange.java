@@ -5,8 +5,7 @@ public class intArraySchlange implements intSchlange
     private int[] data;
     private int vorne;
     private int hinten;
-    private int n:
-    private
+    private int n;
 
     public intArraySchlange()
     {
@@ -24,8 +23,9 @@ public class intArraySchlange implements intSchlange
     public void enqueue(int x)
     {
         if(n== data.length)
-        vorne = x;
-        hinten++;
+        {throw new RuntimeException("Schlaneg ist voll");}
+
+        data[hinten] = x;
         hinten= (hinten + 1) % data.length;
         n++;
     }
@@ -33,7 +33,7 @@ public class intArraySchlange implements intSchlange
     public int head() {
         if(isEmpty())
         { throw new RuntimeException("Schlange ist leer"); }
-        return vorne;
+        return data[vorne];
     }
 
     public int dequeue() {
@@ -41,17 +41,23 @@ public class intArraySchlange implements intSchlange
         { throw new RuntimeException("Schlange ist leer"); }
         int erstes = data[vorne];
         vorne = (vorne + 1) % data.length;
-        return vorne;
+        n--;
+        return erstes;
     }
 
     public String toString() {
         String s = "";
 
-        for(int i=0; i<data.length; i++) {
-            s += data[i] + " ";
+        for(int i=0; i<n; i++) {
+            s += data[ (vorne+i) % data.length] + " ";
         }
 
         return s;
+    }
+
+    public int length()
+    {
+        return n;
     }
 
 }
