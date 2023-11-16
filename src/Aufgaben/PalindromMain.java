@@ -9,6 +9,12 @@ public class PalindromMain {
         // Konvertiert den String s zum Ascii und fügt es in einen Array, um auf jedes Element (Buchstaben) zuzugreifen
         byte[] asciiS = s.getBytes();
 
+        if(asciiS.length % 2 != 0)
+        {
+            System.out.println(asciiS.length);
+            return false;
+        }
+
 
         // forward für die korrekte Richtung des Wortes. Backward für die andere Richtung
         intArraySchlange forward = new intArraySchlange();
@@ -20,23 +26,22 @@ public class PalindromMain {
             forward.enqueue(asciiS[i]);
             backward.push(asciiS[i]);
         }
-
         // Vergleicht die Elemente, solange welche vorhanden sind.
         while(!forward.isEmpty() && !backward.isEmpty())
         {
             // Sind alle Elemente äquivalent, so ist es ein Palindrom.
             if(forward.head()== backward.peek())
             {
-                return true;
+                forward.dequeue();
+                backward.pop();
             } else return false;
         }
-
         return true;
     }
 
     // Gibt das Prüfergebnis aus
     public static void main(String[] args) {
-        String s = "rentner";
+        String s = "reittier";
         System.out.println( istPalindrom(s) );
     }
 }
