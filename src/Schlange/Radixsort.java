@@ -13,25 +13,30 @@ public class Radixsort {
             buckets[i] = new StringArraySchlange(10);
 
         }
+        int posZahlen=0;
+
         for(int a=2; a>=0; a--)
         {
-            for (int j = 0; j < zahlen.length - 1; j++)
+            for (int j = 0; j < zahlen.length; j++)
             {
                     char c = zahlen[j].charAt(a);
                     int ascii = (int) c;
                     ascii = (ascii - 48);
                     buckets[ascii].enqueue(zahlen[j]);
             }
+            // funktioniert erstmal
+
+            posZahlen = 0;
+
             for(int b=0; b<buckets.length; b++)
             {
+                if(buckets[b].isEmpty()) continue;
                 while(!buckets[b].isEmpty())
                 {
-                    // Zuordnung der Schlangenelemente in das Array
-                    for(int d=0; d<zahlen.length; )
+                    zahlen[posZahlen++] = buckets[b].dequeue();
                 }
             }
         }
-
         System.out.println(Arrays.toString(zahlen));
     }
 }

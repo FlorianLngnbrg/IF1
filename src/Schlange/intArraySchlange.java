@@ -59,5 +59,4 @@ public class intArraySchlange implements intSchlange
     {
         return n;
     }
-
 }
