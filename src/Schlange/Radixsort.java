@@ -17,23 +17,20 @@ public class Radixsort {
 
         for(int a=2; a>=0; a--)
         {
-            for (int j = 0; j < zahlen.length; j++)
-            {
-                    char c = zahlen[j].charAt(a);
-                    int ascii = (int) c;
-                    ascii = (ascii - 48);
-                    buckets[ascii].enqueue(zahlen[j]);
+            for (String s : zahlen) {
+                char c = s.charAt(a);
+                int ascii = (int) c;
+                ascii = (ascii - 48);
+                buckets[ascii].enqueue(s);
             }
             // funktioniert erstmal
 
             posZahlen = 0;
 
-            for(int b=0; b<buckets.length; b++)
-            {
-                if(buckets[b].isEmpty()) continue;
-                while(!buckets[b].isEmpty())
-                {
-                    zahlen[posZahlen++] = buckets[b].dequeue();
+            for (StringSchlange bucket : buckets) {
+                if (bucket.isEmpty()) continue;
+                while (!bucket.isEmpty()) {
+                    zahlen[posZahlen++] = bucket.dequeue();
                 }
             }
         }
