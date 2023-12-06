@@ -25,9 +25,6 @@ public class primfaktorzerlegung {
 
     public static void reduziere()
     {
-        intKeller zStapel = pfz(420);
-        intKeller nStapel = pfz(450);
-
         intKeller tempZStapel = new intArrayKeller();
         intKeller tempNStapel = new intArrayKeller();
 
@@ -38,27 +35,33 @@ public class primfaktorzerlegung {
         while (!nStapel.isEmpty()) {
             tempNStapel.push(nStapel.pop());
         }
+        //+
 
         while (!tempZStapel.isEmpty()) {
-            int aktuell = tempZStapel.pop();
+            int z = tempZStapel.pop();
             boolean gefunden = false;
 
+            intKeller tempTempNStapel = new intArrayKeller();
+
             while (!tempNStapel.isEmpty()) {
-                nStapel.push(tempNStapel.pop());
-            }
-            while (!nStapel.isEmpty()) {
-                int nCurrent = nStapel.pop();
-                if (nCurrent == aktuell) {
+                int nCurrent = tempNStapel.pop();
+                if (nCurrent == z) {
                     gefunden = true;
                     break;
                 } else {
-                    tempNStapel.push(nCurrent);
+                    tempTempNStapel.push(nCurrent);
                 }
             }
+
+            while (!tempTempNStapel.isEmpty()) {
+                tempNStapel.push(tempTempNStapel.pop());
+            }
+
             if (!gefunden) {
-                zStapel.push(aktuell);
+                zStapel.push(z);
             }
         }
+
         while (!tempNStapel.isEmpty()) {
             nStapel.push(tempNStapel.pop());
         }
@@ -67,12 +70,13 @@ public class primfaktorzerlegung {
     public static intKeller nStapel = pfz(450);
 
     public static void main(String[] argv) {
-        System.out.println( zStapel );
-        System.out.println( nStapel );
+        System.out.println("Ursprünglicher Zähler-Stapel: " + zStapel);
+        System.out.println("Ursprünglicher Nenner-Stapel: " + nStapel);
 
         reduziere();
 
-        System.out.println( zStapel );
-        System.out.println( nStapel );
+        System.out.println("Gekürzter Zähler-Stapel: " + zStapel);
+        System.out.println("Gekürzter Nenner-Stapel: " + nStapel);
     }
+
 }
