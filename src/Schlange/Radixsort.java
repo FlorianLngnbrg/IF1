@@ -6,7 +6,7 @@ public class Radixsort {
 
     public static void main(String[] argv) {
 
-        String[] zahlen = {"124", "523", "483", "128", "923", "584"};
+        String[] zahlen = {"12", "523", "483", "128", "923", "584"};
         StringSchlange[] buckets = new StringSchlange[10];
 
         for(int i=0; i<buckets.length; i++){
