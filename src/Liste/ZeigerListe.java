@@ -11,15 +11,6 @@ public class ZeigerListe implements Liste {
     private Node last;
     private int N;          // length
 
-
-    public void getNode(Node p, int y)
-    {
-        p = first;
-        for(int m=0; m<y; m++)
-        {
-            p=p.next;
-        }
-    }
     public ZeigerListe() {
         first = last = null;
         N = 0;
@@ -30,66 +21,104 @@ public class ZeigerListe implements Liste {
     }
 
     @Override
-    public int getItem(int index) {
-        Node get;
-        get = first;
-        for(int j=0; j<index; j++)
-        {
-            get = get.next;
-        } return get.item;
-    }
-
-    @Override
     public void append(int inhalt) {
         Node newNode = new Node();
         newNode.item = inhalt;
 
- 	if( isEmpty() ) {
+        if (isEmpty()) {
             last = first = newNode;
-	} else {
-	    last.next = newNode;
- 	    last = newNode;
-	}
-	N++;
-    }
+        } else {
+            last.next = newNode;
+            last = newNode;
+        }
 
-    @Override
-    public void insertAt(int index, int inhalt)
-    {
-        Node ins;
-
-        getNode(ins, index);
-
-        append(inhalt);
         N++;
     }
 
     @Override
-    public void setItem(int index, int inhalt)
-    {
-        Node set;
-        set = first;
+    public int getItem(int index) {
+        if (index < 0 || index >= N) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
 
-        for(int u=0; u<index; u++)
-        {
-            set = set.next;
-        } set.item = inhalt;
+        Node p = first;
+        for (int i = 0; i < index; i++) {
+            p = p.next;
+        }
+
+        return p.item;
     }
 
     @Override
-    public void delete(int index)
-    {
-        Node del;
-        del = first;
-        for(int k=index; k<N-1; k++)
-        {
-            insertAt(index, );
+    public void insertAt(int index, int inhalt) {
+        if (index < 0 || index > N) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
         }
+        if (index == N) {
+            append(inhalt);
+            return;
+        }
+
+        Node newNode = new Node();
+        newNode.item = inhalt;
+
+        if (index == 0) {
+            newNode.next = first;
+            first = newNode;
+
+            /*
+            last.next = newNode;
+            last = newNode;
+             */
+        } else {
+            Node prev = first;
+            for (int i = 0; i < index - 1; i++) {
+                prev = prev.next;
+            }
+            newNode.next = prev.next;
+            prev.next = newNode;
+        }
+
+        N++;
+    }
+
+    @Override
+    public void setItem(int index, int inhalt) {
+        if (index < 0 || index >= N) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+
+        Node u = first;
+        for (int i = 0; i < index; i++) {
+            u = u.next;
+        }
+
+        u.item = inhalt;
+    }
+
+    @Override
+    public void delete(int index) {
+        if (index < 0 || index >= N) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+        if (index == 0) {
+            first = first.next;
+        } else {
+            Node prev = first;
+            for (int i = 0; i < index - 1; i++) {
+                prev = prev.next;
+            }
+            prev.next = prev.next.next;
+            if (index == N - 1) {
+                last = prev;
+            }
+        }
+        N--;
     }
 
     @Override
     public int getLength() {
-	return 0;
+        return N;
     }
 
     public String toString() {
@@ -100,15 +129,13 @@ public class ZeigerListe implements Liste {
         return s;
     }
 
-
     public static void main(String[] argv) {
         Liste l = new ZeigerListe();
 
         l.append(4);
         l.append(7);
         l.append(13);
-        l.insertAt(3, 5);
-        l.setItem(1, 2);
+        l.delete(2);
 
         System.out.println(l);
     }
