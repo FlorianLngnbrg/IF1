@@ -34,5 +34,6 @@ public class Dominostein {
     public String toString()
     {
         String s = "( " + links + " | " + rechts + " )";
+        return s;
     }
 }

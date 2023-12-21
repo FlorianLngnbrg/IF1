@@ -14,6 +14,18 @@ public class Stack<E> implements intKeller<E> {
         N = 0;
     }
     public boolean isEmpty() { return N == 0; }
+
+    @Override
+
+    public void push(int x) {
+
+    }
+
+    @Override
+    public int peek() {
+        return 0;
+    }
+
     public int size() { return N; }
     public void push(E item) {
         Node newNode = new Node();
@@ -26,12 +38,12 @@ public class Stack<E> implements intKeller<E> {
         if(isEmpty()) throw new RuntimeException();
         return top.item;
     }
-    public E pop() {
+    public int pop() {
         if(isEmpty()) throw new RuntimeException();
         E item = top.item;
         top = top.next;
         N--;
-        return item;
+        return (int) item;
     }
     public String toString() {
         String s = "";
