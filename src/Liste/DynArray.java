@@ -89,10 +89,13 @@ public class DynArray<E> {
     }
 
     public String toString() {
+        int z = 0;
         String s = "N = " + N + ": ";
         for(Node p = first; p != null; p = p.next){
+            z++;
             s += p.item + " ";
         }
+        System.out.println("Anzahl: " + z);
         return s;
     }
 
