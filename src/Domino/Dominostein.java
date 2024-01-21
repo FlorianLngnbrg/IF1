@@ -24,14 +24,15 @@ public class Dominostein {
     public void steinDrehen()
     {
         int lt = links;
+        int rt = rechts;
 
-        links = rechts;
+        links = rt;
         rechts = lt;
     }
 
     @Override
     public String toString()
     {
-        return "( " + links + " | " + rechts + " )";
+        String s = "( " + links + " | " + rechts + " )";
     }
 }
