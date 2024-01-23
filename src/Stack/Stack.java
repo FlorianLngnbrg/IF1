@@ -1,8 +1,8 @@
 package Stack;
 
-public class Stack<E> implements intKeller<E> {
+public class Stack implements intKeller {
     private class Node {
-        E item;
+        int item;
         Node next;
     }
 
@@ -15,20 +15,26 @@ public class Stack<E> implements intKeller<E> {
     }
     public boolean isEmpty() { return N == 0; }
     public int size() { return N; }
-    public void push(E item) {
+    public void push(int item) {
         Node newNode = new Node();
         newNode.item = item;
         newNode.next = top;
         top = newNode;
         N++;
     }
-    public E top() {
+
+    @Override
+    public int peek() {
+        return 0;
+    }
+
+    public int top() {
         if(isEmpty()) throw new RuntimeException();
         return top.item;
     }
-    public E pop() {
+    public int pop() {
         if(isEmpty()) throw new RuntimeException();
-        E item = top.item;
+        int item = top.item;
         top = top.next;
         N--;
         return item;

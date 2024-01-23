@@ -37,11 +37,6 @@ public class Main {
         return true;
     }
 
-    public boolean pruefeRing()
-    {
-
-    }
-
 
     public static void main(String[] args)
     {
@@ -52,8 +47,5 @@ public class Main {
         Dominostein d5 = new Dominostein(2, 3);
         Dominostein d6 = new Dominostein(1, 3);
         Dominostein d7 = new Dominostein(5, 6);
-
-        for(int j=0)
-
     }
 }

@@ -1,5 +1,5 @@
 package Stack;
-public interface intKeller<E> {
+public interface intKeller {
 
     // liefert true, falls Keller leer, sonst false
     public boolean isEmpty();
