@@ -1,9 +1,17 @@
 package Verschluesslung;
 
 import java.util.Arrays;
-
 public class Vigenere2 {
+    public static void main(String[] argv) {
 
+        String g1 = "PWTMYTBADKDGPWPFYWFGUESOTLUPNVYWAPKCSOOJWWASTLSUZUSJMJBBRSTIMGPYSXOJWWASMMZQLCHJQWGYDHKOJWWASTMFPADWIPVKLHONZWPDPWRAAGQPRKNJCNPKGPJJLTHYOWOHPGYJWCUEKUZLGAOWKHOGPESMZMRWPBKVFVZTQNLAGSFSMVWTDPWRAAGQPRKNJCNPTGTKEOMSGVLYVCHKBVKLOFOBLGNCIVXWPLYBZAAEOOWKEWEODZKZOGPWGOMSWMPWTIFFLCTUTYGUOSLZSILYOHEWEODSRVVYHSFAVVHHWGIPTGHYHCWJVLERGJWKPDHGJWTUTQNBXGZEUKTWIAZPPMOGPWGJQWGYDHKNJCNPSOVWTZPFOMNQUQFGOWPYTQNBAIVOSXNSNZNVHMSPAHCXBWVDTFJRWFLASXAGPHYHCWJVLEOANWKUPTXIYGUFFSQLLHZRKZFGPYTXIYGUOWKVAEOEAOBBCVOSXVWKUMSGVLYVCHKBOGYOSTSGGUYSTAAPKYWIPLBBRSRIKULYJUVWKUPFHMDKLMWMMFRLCGUVKQSWAGVVWYNVLZSILYROMKKJSBAZSWMOWKHMILSCKZAIRPWZHMGPYSXLWTNCIVXWPIPNOMZGUSSXIMUIPYUUEGUKICMDEOPFMZMRWPGOMYGOZSXBOKLGWKTWHYLUKVEWZDAGVEKUOSYBWPZDHKTDGUFBJEWNJSSLZSILYYUMFPAPAGVKVLWZKV";
+        String g2 = "KQOWEFVJPUJUUNUKGLMEKJINMWUXFQMKJBGWRLFNFGHUDWUUMBSVLPSNCMUEKQCTESWREEKOYSSIWCTUAXYOTAPXPLWPNTCGOJBGFQHTDWXIZAYGFFNSXCSEYNCTSSPNTUJNYTGGWZGRWUUNEJUUQEAPYMEKQHUIDUXFPGUYTSMTFFSHNUOCZGMRUWEYTRGKMEEDCTVRECFBDJQCUSWVBPNLGOYLSKMTEFVJJTWWMFMWPNMEMTMHRSPXFSSKFFSTNUOCZGMDOEOYEEKCPJRGPMURSKHFRSEIUEVGOYCWXIZAYGOSAANYDOEOYJLWUNHAMEBFELXYVLWNOJNSIOFRWUCCESWKVIDGMUCGOCRUWGNMAAFFVNSIUDEKQHCEUCPFCMPVSUDGAVEMNYMAMVLFMAOYFNTQCUAFVFJNXKLNEIWCWODCCULWRIFTWGMUSWOVMATNYBUHTCOCWFYTNMGYTQMKBBNLGFBTWOJFTWGNTEJKNEEDCLDHWTVBUVGFBIJGYYIDGMVRDGMPLSWGJLAGOEEKJOFEKNYNOLRIVRWVUHEIWUURWGMUTJCDBNKGMBIDGMEEYGUOTDGGQEUJYOTVGGBRUJYS";
+
+        schlüsselzeichengruppen(g2, 5);
+        //haeufigkeiten(g2);
+        //stellenHaeufigkeiten(g2, 0, 5);
+        haeufigkeiten2(g2);
+    }
     public static String encode(String klar, String schlüsselwort) {
         String geheim = "";
 
@@ -17,22 +25,65 @@ public class Vigenere2 {
 
             j = (j + 1) % schlüsselwort.length();
         }
-
         return geheim;
+    }
+
+    public static void encrypt(String klar, String schluesselwort)
+    {
+        String geheim = "";
+        klar = klar.toUpperCase();
+        schluesselwort = schluesselwort.toUpperCase();
+
+        int j = 0;
+
+        for (int i = 0; i < klar.length(); i++) {
+            char c = klar.charAt(i);
+
+            int schluessel = schluesselwort.charAt(j) - 65;
+            geheim += (char)((c - 65 + schluessel) % 26 + 65);
+
+            j = (j + 1) % schluesselwort.length();
+        }
+
+        System.out.println("Klartext: " + klar);
+        System.out.println("Geheimtext: " + geheim);
     }
 
     public static String decode(String geheim, String key) {
         return "";
     }
 
-    public static void main(String[] argv) {
-        //System.out.println( encode("DERKLARTEXTWIRDZUMGEHEIMTEXT","PLUTO") ); // SPLDZPCNXLIHCKROFGZSWPCFHTIN
-        //System.out.println( encode("DERKLARTEXTWERDEGEHEIMTEXT","PLUTO") ); // SPLDZPCNXLIHYKRTRYASXXNXLI
+    public static void decrypt(String geheim, String schluesselwort)
+    {
+        String klar = "";
+        geheim = geheim.toUpperCase();
+        schluesselwort = schluesselwort.toUpperCase();
 
-        String g1 = "PWTMYTBADKDGPWPFYWFGUESOTLUPNVYWAPKCSOOJWWASTLSUZUSJMJBBRSTIMGPYSXOJWWASMMZQLCHJQWGYDHKOJWWASTMFPADWIPVKLHONZWPDPWRAAGQPRKNJCNPKGPJJLTHYOWOHPGYJWCUEKUZLGAOWKHOGPESMZMRWPBKVFVZTQNLAGSFSMVWTDPWRAAGQPRKNJCNPTGTKEOMSGVLYVCHKBVKLOFOBLGNCIVXWPLYBZAAEOOWKEWEODZKZOGPWGOMSWMPWTIFFLCTUTYGUOSLZSILYOHEWEODSRVVYHSFAVVHHWGIPTGHYHCWJVLERGJWKPDHGJWTUTQNBXGZEUKTWIAZPPMOGPWGJQWGYDHKNJCNPSOVWTZPFOMNQUQFGOWPYTQNBAIVOSXNSNZNVHMSPAHCXBWVDTFJRWFLASXAGPHYHCWJVLEOANWKUPTXIYGUFFSQLLHZRKZFGPYTXIYGUOWKVAEOEAOBBCVOSXVWKUMSGVLYVCHKBOGYOSTSGGUYSTAAPKYWIPLBBRSRIKULYJUVWKUPFHMDKLMWMMFRLCGUVKQSWAGVVWYNVLZSILYROMKKJSBAZSWMOWKHMILSCKZAIRPWZHMGPYSXLWTNCIVXWPIPNOMZGUSSXIMUIPYUUEGUKICMDEOPFMZMRWPGOMYGOZSXBOKLGWKTWHYLUKVEWZDAGVEKUOSYBWPZDHKTDGUFBJEWNJSSLZSILYYUMFPAPAGVKVLWZKV";
-        String g2 = "KQOWEFVJPUJUUNUKGLMEKJINMWUXFQMKJBGWRLFNFGHUDWUUMBSVLPSNCMUEKQCTESWREEKOYSSIWCTUAXYOTAPXPLWPNTCGOJBGFQHTDWXIZAYGFFNSXCSEYNCTSSPNTUJNYTGGWZGRWUUNEJUUQEAPYMEKQHUIDUXFPGUYTSMTFFSHNUOCZGMRUWEYTRGKMEEDCTVRECFBDJQCUSWVBPNLGOYLSKMTEFVJJTWWMFMWPNMEMTMHRSPXFSSKFFSTNUOCZGMDOEOYEEKCPJRGPMURSKHFRSEIUEVGOYCWXIZAYGOSAANYDOEOYJLWUNHAMEBFELXYVLWNOJNSIOFRWUCCESWKVIDGMUCGOCRUWGNMAAFFVNSIUDEKQHCEUCPFCMPVSUDGAVEMNYMAMVLFMAOYFNTQCUAFVFJNXKLNEIWCWODCCULWRIFTWGMUSWOVMATNYBUHTCOCWFYTNMGYTQMKBBNLGFBTWOJFTWGNTEJKNEEDCLDHWTVBUVGFBIJGYYIDGMVRDGMPLSWGJLAGOEEKJOFEKNYNOLRIVRWVUHEIWUURWGMUTJCDBNKGMBIDGMEEYGUOTDGGQEUJYOTVGGBRUJYS";
+        int j = 0;
 
-        schlüsselzeichengruppen(g2, 5);
+        for (int i = 0; i < geheim.length(); i++) {
+            char c = geheim.charAt(i);
+
+            int schlüssel = schluesselwort.charAt(j) - 65;
+            klar += (char)((c - 65 + 26 - schlüssel) % 26 + 65);
+
+            j = (j + 1) % schluesselwort.length();
+        }
+
+        System.out.println("Geheimtext: " + geheim);
+        System.out.println("Klartext: " + klar);
+    }
+
+    public static String[] bildeZeichengruppen (String geheim, int anz) {
+        String[] gruppen = new String[anz];
+        for(int i=0; i<anz; i++) {
+            gruppen[i] = "";
+        }
+
+        for(int i=0; i<geheim.length(); i++) {
+            gruppen[i % anz] += geheim.charAt(i);
+        }
+        return gruppen;
     }
 
     public static String[] schlüsselzeichengruppen (String g, int kasiskiResult)
@@ -93,5 +144,105 @@ public class Vigenere2 {
                }
            }
        }
+    }
+
+    public static double[][] haeufigkeiten(String kryptogramm) {
+        double[][] h = new double[26][2];
+
+        int anzahlZ = kryptogramm.length();
+
+        for (int i = 0; i < kryptogramm.length(); i++) {
+            char buchstabe = kryptogramm.charAt(i);
+
+            if ('A' <= buchstabe && buchstabe <= 'Z') {
+                h[buchstabe - 'A'][0]++;
+            }
+        }
+
+        for (int j = 0; j < h.length; j++) {
+            h[j][1] = h[j][0] / anzahlZ * 100;
+        }
+        System.out.println(toString(h));
+        return h;
+    }
+
+    public static double[] haeufigkeiten2(String kryptogramm) {
+        double[] h = new double[26];
+
+        int anzahlZ = kryptogramm.length();
+
+        for (int i = 0; i < kryptogramm.length(); i++) {
+            char buchstabe = kryptogramm.charAt(i);
+
+            if ('A' <= buchstabe && buchstabe <= 'Z') {
+                h[buchstabe - 'A']++;
+            }
+        }
+
+        for (int j = 0; j < h.length; j++) {
+            h[j] = h[j] / anzahlZ * 100;
+        }
+        System.out.println(toString2(h));
+        return h;
+    }
+
+    public static double[][] stellenHaeufigkeiten(String kryptogramm, int stelle, int sprung) {
+        double[][] h = new double[26][2];
+
+        int anzahlZ = kryptogramm.length();
+
+        for (int i = stelle; i < kryptogramm.length(); i+=sprung) {
+            char buchstabe = kryptogramm.charAt(i);
+
+            int end = i + sprung;
+
+            if(end>kryptogramm.length())
+            {
+                break;
+            }
+
+            if ('A' <= buchstabe && buchstabe <= 'Z') {
+                h[buchstabe - 'A'][0]++;
+            }
+        }
+
+        for (int j = 0; j < h.length; j++) {
+            h[j][1] = h[j][0] / anzahlZ * 100;
+        }
+        System.out.println(toString(h));
+
+        return h;
+    }
+
+    public static String toString(double s[][])
+    {
+        String z = "";
+        String a = "Absolute Häufigkeit: ";
+        String b = "Relative Häufigkeit: ";
+
+
+        for(int i=0; i<s.length; i++)
+        {
+            a += s[i][0] + " ";
+            b += s[i][1] + "%" +  " ";
+        }
+        z = a + "\n" + b;
+
+        return z;
+    }
+
+    public static String toString2(double s[])
+    {
+        String z = "";
+        String b = "Relative Häufigkeit: ";
+
+
+        for(int i=0; i<s.length; i++)
+        {
+            b += s[i] + "%" +  " ";
+        }
+        z += b;
+
+        return z;
     }
 }
