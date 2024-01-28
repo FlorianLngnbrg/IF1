@@ -1,17 +1,56 @@
 package Verschluesslung;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.TreeMap;
+
 public class Vigenere2 {
-    public static void main(String[] argv) {
+    private static double[] relHEnglisch = {8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074};
+    private static double[] relHDeutsch = {6.51, 1.89, 3.06, 5.08, 17.4, 1.66, 3.01, 4.76, 7.55, 0.27, 1.21, 3.44, 2.53, 9.78, 2.51, 0.79, 0.02, 7.00, 7.27, 6.15, 4.35, 0.67, 1.89, 0.03, 0.04, 1.13};
+    private static double[] relHFranzoesisch = {7.63, 0.90, 3.26, 3.66, 14.72, 1.07, 0.87, 0.74, 7.53, 0.55, 0.05, 5.45, 2.97, 7.09, 5.38, 3.02, 1.36, 6.55, 7.95, 7.23, 6.31, 1.63, 0.11, 0.39, 0.31, 0.14};
+    public static void main(String[] argv)
+    {
 
         String g1 = "PWTMYTBADKDGPWPFYWFGUESOTLUPNVYWAPKCSOOJWWASTLSUZUSJMJBBRSTIMGPYSXOJWWASMMZQLCHJQWGYDHKOJWWASTMFPADWIPVKLHONZWPDPWRAAGQPRKNJCNPKGPJJLTHYOWOHPGYJWCUEKUZLGAOWKHOGPESMZMRWPBKVFVZTQNLAGSFSMVWTDPWRAAGQPRKNJCNPTGTKEOMSGVLYVCHKBVKLOFOBLGNCIVXWPLYBZAAEOOWKEWEODZKZOGPWGOMSWMPWTIFFLCTUTYGUOSLZSILYOHEWEODSRVVYHSFAVVHHWGIPTGHYHCWJVLERGJWKPDHGJWTUTQNBXGZEUKTWIAZPPMOGPWGJQWGYDHKNJCNPSOVWTZPFOMNQUQFGOWPYTQNBAIVOSXNSNZNVHMSPAHCXBWVDTFJRWFLASXAGPHYHCWJVLEOANWKUPTXIYGUFFSQLLHZRKZFGPYTXIYGUOWKVAEOEAOBBCVOSXVWKUMSGVLYVCHKBOGYOSTSGGUYSTAAPKYWIPLBBRSRIKULYJUVWKUPFHMDKLMWMMFRLCGUVKQSWAGVVWYNVLZSILYROMKKJSBAZSWMOWKHMILSCKZAIRPWZHMGPYSXLWTNCIVXWPIPNOMZGUSSXIMUIPYUUEGUKICMDEOPFMZMRWPGOMYGOZSXBOKLGWKTWHYLUKVEWZDAGVEKUOSYBWPZDHKTDGUFBJEWNJSSLZSILYYUMFPAPAGVKVLWZKV";
         String g2 = "KQOWEFVJPUJUUNUKGLMEKJINMWUXFQMKJBGWRLFNFGHUDWUUMBSVLPSNCMUEKQCTESWREEKOYSSIWCTUAXYOTAPXPLWPNTCGOJBGFQHTDWXIZAYGFFNSXCSEYNCTSSPNTUJNYTGGWZGRWUUNEJUUQEAPYMEKQHUIDUXFPGUYTSMTFFSHNUOCZGMRUWEYTRGKMEEDCTVRECFBDJQCUSWVBPNLGOYLSKMTEFVJJTWWMFMWPNMEMTMHRSPXFSSKFFSTNUOCZGMDOEOYEEKCPJRGPMURSKHFRSEIUEVGOYCWXIZAYGOSAANYDOEOYJLWUNHAMEBFELXYVLWNOJNSIOFRWUCCESWKVIDGMUCGOCRUWGNMAAFFVNSIUDEKQHCEUCPFCMPVSUDGAVEMNYMAMVLFMAOYFNTQCUAFVFJNXKLNEIWCWODCCULWRIFTWGMUSWOVMATNYBUHTCOCWFYTNMGYTQMKBBNLGFBTWOJFTWGNTEJKNEEDCLDHWTVBUVGFBIJGYYIDGMVRDGMPLSWGJLAGOEEKJOFEKNYNOLRIVRWVUHEIWUURWGMUTJCDBNKGMBIDGMEEYGUOTDGGQEUJYOTVGGBRUJYS";
 
-        schlüsselzeichengruppen(g2, 5);
-        //haeufigkeiten(g2);
-        //stellenHaeufigkeiten(g2, 0, 5);
-        haeufigkeiten2(g2);
+        decrypt(g2, schlüsselwortCracker(g2));
     }
+
+    public static String schlüsselwortCracker(String geheim)
+    {
+        String keyword = "";
+
+        for(int j=0; j<5; j++)
+        {
+            double[][] t = stellenHaeufigkeiten(geheim, j, 5);
+            double summe = 0;
+            String letter = "";
+            double tempDoub = 0;
+
+            for (int verschiebung = 0; verschiebung < 26; verschiebung++) {
+                summe = 0;
+
+                for (int i = 0; i < relHFranzoesisch.length; i++) {
+                    summe += Math.abs(t[(i + verschiebung) % 26][1] - relHFranzoesisch[i]);
+                }
+                if(verschiebung==0)
+                {
+                    tempDoub = summe;
+                }
+
+                if(summe < tempDoub)
+                {
+                    tempDoub = summe;
+                    char u = (char) (65 + verschiebung);
+                    letter = String.valueOf(u);
+                }
+            }
+            keyword += letter;
+        }
+        return keyword;
+    }
+
     public static String encode(String klar, String schlüsselwort) {
         String geheim = "";
 
@@ -70,6 +109,7 @@ public class Vigenere2 {
             j = (j + 1) % schluesselwort.length();
         }
 
+        System.out.println(schluesselwort);
         System.out.println("Geheimtext: " + geheim);
         System.out.println("Klartext: " + klar);
     }
@@ -162,7 +202,6 @@ public class Vigenere2 {
         for (int j = 0; j < h.length; j++) {
             h[j][1] = h[j][0] / anzahlZ * 100;
         }
-        System.out.println(toString(h));
         return h;
     }
 
@@ -182,18 +221,17 @@ public class Vigenere2 {
         for (int j = 0; j < h.length; j++) {
             h[j] = h[j] / anzahlZ * 100;
         }
-        System.out.println(toString2(h));
         return h;
     }
 
     public static double[][] stellenHaeufigkeiten(String kryptogramm, int stelle, int sprung) {
         double[][] h = new double[26][2];
+        int z = 0;
 
         int anzahlZ = kryptogramm.length();
 
         for (int i = stelle; i < kryptogramm.length(); i+=sprung) {
             char buchstabe = kryptogramm.charAt(i);
-
             int end = i + sprung;
 
             if(end>kryptogramm.length())
@@ -201,15 +239,15 @@ public class Vigenere2 {
                 break;
             }
 
+            z++;
             if ('A' <= buchstabe && buchstabe <= 'Z') {
                 h[buchstabe - 'A'][0]++;
             }
         }
 
         for (int j = 0; j < h.length; j++) {
-            h[j][1] = h[j][0] / anzahlZ * 100;
+            h[j][1] = h[j][0] / z * 100;
         }
-        System.out.println(toString(h));
 
         return h;
     }
