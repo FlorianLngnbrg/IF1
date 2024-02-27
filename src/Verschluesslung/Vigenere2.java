@@ -1,8 +1,10 @@
 package Verschluesslung;
 
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class Vigenere2 {
     private static double[] relHEnglisch = {8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074};
@@ -13,17 +15,41 @@ public class Vigenere2 {
 
         String g1 = "PWTMYTBADKDGPWPFYWFGUESOTLUPNVYWAPKCSOOJWWASTLSUZUSJMJBBRSTIMGPYSXOJWWASMMZQLCHJQWGYDHKOJWWASTMFPADWIPVKLHONZWPDPWRAAGQPRKNJCNPKGPJJLTHYOWOHPGYJWCUEKUZLGAOWKHOGPESMZMRWPBKVFVZTQNLAGSFSMVWTDPWRAAGQPRKNJCNPTGTKEOMSGVLYVCHKBVKLOFOBLGNCIVXWPLYBZAAEOOWKEWEODZKZOGPWGOMSWMPWTIFFLCTUTYGUOSLZSILYOHEWEODSRVVYHSFAVVHHWGIPTGHYHCWJVLERGJWKPDHGJWTUTQNBXGZEUKTWIAZPPMOGPWGJQWGYDHKNJCNPSOVWTZPFOMNQUQFGOWPYTQNBAIVOSXNSNZNVHMSPAHCXBWVDTFJRWFLASXAGPHYHCWJVLEOANWKUPTXIYGUFFSQLLHZRKZFGPYTXIYGUOWKVAEOEAOBBCVOSXVWKUMSGVLYVCHKBOGYOSTSGGUYSTAAPKYWIPLBBRSRIKULYJUVWKUPFHMDKLMWMMFRLCGUVKQSWAGVVWYNVLZSILYROMKKJSBAZSWMOWKHMILSCKZAIRPWZHMGPYSXLWTNCIVXWPIPNOMZGUSSXIMUIPYUUEGUKICMDEOPFMZMRWPGOMYGOZSXBOKLGWKTWHYLUKVEWZDAGVEKUOSYBWPZDHKTDGUFBJEWNJSSLZSILYYUMFPAPAGVKVLWZKV";
         String g2 = "KQOWEFVJPUJUUNUKGLMEKJINMWUXFQMKJBGWRLFNFGHUDWUUMBSVLPSNCMUEKQCTESWREEKOYSSIWCTUAXYOTAPXPLWPNTCGOJBGFQHTDWXIZAYGFFNSXCSEYNCTSSPNTUJNYTGGWZGRWUUNEJUUQEAPYMEKQHUIDUXFPGUYTSMTFFSHNUOCZGMRUWEYTRGKMEEDCTVRECFBDJQCUSWVBPNLGOYLSKMTEFVJJTWWMFMWPNMEMTMHRSPXFSSKFFSTNUOCZGMDOEOYEEKCPJRGPMURSKHFRSEIUEVGOYCWXIZAYGOSAANYDOEOYJLWUNHAMEBFELXYVLWNOJNSIOFRWUCCESWKVIDGMUCGOCRUWGNMAAFFVNSIUDEKQHCEUCPFCMPVSUDGAVEMNYMAMVLFMAOYFNTQCUAFVFJNXKLNEIWCWODCCULWRIFTWGMUSWOVMATNYBUHTCOCWFYTNMGYTQMKBBNLGFBTWOJFTWGNTEJKNEEDCLDHWTVBUVGFBIJGYYIDGMVRDGMPLSWGJLAGOEEKJOFEKNYNOLRIVRWVUHEIWUURWGMUTJCDBNKGMBIDGMEEYGUOTDGGQEUJYOTVGGBRUJYS";
+        String g3 = "IMIEWWEEJJSRDSRHGZZOCMTXJUYNWMCYBVURJVSVSVSNVUZATMZAFUXNSBVATBRAECEQLIDQJMXBMLVAFPVECAKRTHVVUCEQEQVOJZEROTVHDPKRUMEJFQKHOLSEFQKQBAKBQNKRXMEATUZGUIXIPUKHSUVFDPFYMLVEWWEEJJSRDSJVDPSRJLVGBATUFVMBMTLAESRZJVGNOBZAFVVVORLAHMUNIMIFPZZRGMIWVVXRXQJGFVVOFMIHOLBNNMZANIVQFTJBSQVSFZCHFBKQJZEXVUDZBVIBFEVEJKBUFJSAFJZEO";
 
-        decrypt(g2, schlüsselwortCracker(g2));
+        //intelligenterVigenerecracker(g3, relHDeutsch);
+        bruteforceVigenerecracker(g3, 15, relHDeutsch);
     }
 
-    public static String schlüsselwortCracker(String geheim)
-    {
-        String keyword = "";
 
-        for(int j=0; j<5; j++)
+    public static void intelligenterVigenerecracker(String kryptogramm, double[] sprache)
+    {
+        int[] kasiskiResults = KasikiTest(kryptogramm);
+
+        for(int result : kasiskiResults)
         {
-            double[][] t = stellenHaeufigkeiten(geheim, j, 5);
+            String key = schlüsselwortCracker(kryptogramm, result, sprache);
+            decrypt(kryptogramm, key);
+        }
+        System.out.println("Nicht das richtige Schlüsselwort? Dann bruteforceVigenerecracker verwenden.");
+    }
+
+    public static void bruteforceVigenerecracker(String kryptogramm, int crack, double[] sprache)
+    {
+        for(int l=0; l<crack; l++)
+        {
+            String key = schlüsselwortCracker(kryptogramm, l, sprache);
+            System.out.println(key);
+        }
+    }
+
+    public static String schlüsselwortCracker(String geheim, int Kasiski, double[] lang)
+    {
+        StringBuilder keyword = new StringBuilder();
+
+        for(int j=0; j<Kasiski; j++)
+        {
+            double[][] t = stellenHaeufigkeiten(geheim, j, Kasiski);
             double summe = 0;
             String letter = "";
             double tempDoub = 0;
@@ -31,24 +57,19 @@ public class Vigenere2 {
             for (int verschiebung = 0; verschiebung < 26; verschiebung++) {
                 summe = 0;
 
-                for (int i = 0; i < relHFranzoesisch.length; i++) {
-                    summe += Math.abs(t[(i + verschiebung) % 26][1] - relHFranzoesisch[i]);
-                }
-                if(verschiebung==0)
-                {
-                    tempDoub = summe;
+                for (int i = 0; i < lang.length; i++) {
+                    summe += Math.abs(t[(i + verschiebung) % 26][1] - lang[i]);
                 }
 
-                if(summe < tempDoub)
-                {
+                if (verschiebung == 0 || summe < tempDoub) {
                     tempDoub = summe;
                     char u = (char) (65 + verschiebung);
                     letter = String.valueOf(u);
                 }
             }
-            keyword += letter;
+            keyword.append(letter);
         }
-        return keyword;
+        return keyword.toString();
     }
 
     public static String encode(String klar, String schlüsselwort) {
@@ -65,6 +86,52 @@ public class Vigenere2 {
             j = (j + 1) % schlüsselwort.length();
         }
         return geheim;
+    }
+
+    public static int[] KasikiTest(String kryptogramm)
+    {
+        Map<String, List<Integer>> wiederholungen = new HashMap<>();
+
+        for (int i = 0; i < kryptogramm.length() - 2; i++) {
+            String trigramm = kryptogramm.substring(i, i + 3);
+
+            if (wiederholungen.containsKey(trigramm)) {
+                wiederholungen.get(trigramm).add(i);
+            } else {
+                List<Integer> positions = new ArrayList<>();
+                positions.add(i);
+                wiederholungen.put(trigramm, positions);
+            }
+        }
+
+        List<Integer> abstaende = new ArrayList<>();
+
+        for (String trigramm : wiederholungen.keySet()) {
+            List<Integer> positions = wiederholungen.get(trigramm);
+
+            if (positions.size() > 1) {
+                for (int i = 0; i < positions.size() - 1; i++) {
+                    for (int j = i + 1; j < positions.size(); j++) {
+                        int abstand = positions.get(j) - positions.get(i);
+                        abstaende.add(abstand);
+                    }
+                }
+            }
+        }
+
+        List<Integer> faktoren = new ArrayList<>();
+
+        for (int abstand : abstaende) {
+            String faktorString = primfaktoren(abstand);
+            if (!faktorString.isEmpty()) {
+                String[] faktorArray = faktorString.trim().split(" ");
+                for (String faktor : faktorArray) {
+                    faktoren.add(Integer.parseInt(faktor));
+                }
+            }
+        }
+
+        return faktoren.stream().distinct().mapToInt(Integer::intValue).toArray();
     }
 
     public static void encrypt(String klar, String schluesselwort)
@@ -109,7 +176,7 @@ public class Vigenere2 {
             j = (j + 1) % schluesselwort.length();
         }
 
-        System.out.println(schluesselwort);
+        System.out.println("Mögliches Schlüsselwort: " + schluesselwort);
         System.out.println("Geheimtext: " + geheim);
         System.out.println("Klartext: " + klar);
     }
@@ -282,5 +349,15 @@ public class Vigenere2 {
         z += b;
 
         return z;
+    }
+    public static String primfaktoren(int zahl) {
+        String faktoren = "";
+        for(int i=2; i<=zahl/2; i++) {
+            while(zahl%i == 0) {
+                faktoren += i + " ";
+                zahl /= i;
+            }
+        }
+        return faktoren;
     }
 }
